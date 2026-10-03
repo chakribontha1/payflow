@@ -1,0 +1,15 @@
+package com.example.PayFlow.common.enums;
+
+public enum PaymentEvent {
+    AUTHORIZED_ATTEMPT,
+    AUTHORIZED_SUCCESS,
+    AUTHORIZED_FAIL,
+    CAPTURED_REQUEST,
+    CAPTURED_SUCCESS,
+    CAPTURED_FAIL,
+    REFUND_INIT,
+    REFUND_COMPLETE,
+    SETTLE,
+    CANCEL,
+    CAPURE_TIMEOUT,
+}
