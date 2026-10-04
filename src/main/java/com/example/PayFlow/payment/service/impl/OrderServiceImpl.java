@@ -75,8 +75,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponce getById(UUID merchantId, UUID orderId) {
-        OrderRecord orderRecord =  orderRepository.findByIdAndMerchantId(merchantId, orderId)
+    public OrderResponce getById(UUID orderId, UUID merchantId) {
+        OrderRecord orderRecord =  orderRepository.findByIdAndMerchantId(orderId, merchantId)
                 .orElseThrow(() -> new ResourceNotFoundException("ORDER_NOT_FOUND", orderId));
 
         return orderMapper.toResponse(orderRecord);
@@ -85,7 +85,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderResponce cancel(UUID merchantId, UUID orderId) {
+    public OrderResponce cancel(UUID orderId, UUID merchantId) {
         OrderRecord order =  orderRepository.findByIdAndMerchantId(orderId, merchantId)
                 .orElseThrow(() -> new ResourceNotFoundException("ORDER_NOT_FOUND", orderId));
         if(order.getOrderStatus() == OrderStatus.CANCELED || order.getOrderStatus() == OrderStatus.PAID){
@@ -97,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<PaymentResponse> listPayments(UUID merchantId, UUID orderId) {
+    public List<PaymentResponse> listPayments(UUID orderId, UUID merchantId) {
         OrderRecord order =  orderRepository.findByIdAndMerchantId(orderId, merchantId)
                 .orElseThrow(() -> new ResourceNotFoundException("ORDER_NOT_FOUND", orderId));
 

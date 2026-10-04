@@ -26,7 +26,7 @@ import java.util.UUID;
 public class OrderRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID Id;
+    private UUID id;
 
     //no FK cross-service boundary
     @Column(name = "merchant_id", nullable = false)
