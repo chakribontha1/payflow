@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface OrderService {
     OrderResponce create(UUID merchantId, CreateOrderRequest request);
-    OrderResponce getById(UUID merchantId, UUID orderId);
-    OrderResponce cancel(UUID merchantId, UUID orderId);
-    List<PaymentResponse> listPayments(UUID merchantId, UUID orderId);
+    OrderResponce getById(UUID orderId, UUID merchantId);
+    OrderResponce cancel(UUID orderId, UUID merchantId);
+    List<PaymentResponse> listPayments(UUID orderId, UUID merchantId);
 }

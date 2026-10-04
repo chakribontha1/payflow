@@ -101,7 +101,7 @@ public class OrderServiceImpl implements OrderService {
         OrderRecord order =  orderRepository.findByIdAndMerchantId(orderId, merchantId)
                 .orElseThrow(() -> new ResourceNotFoundException("ORDER_NOT_FOUND", orderId));
 
-        List<Payment> paymentList = paymentRepository.findByOrder_Id(order);
+        List<Payment> paymentList = paymentRepository.findByOrder(order);
 
 
 //        return paymentList.stream().map(

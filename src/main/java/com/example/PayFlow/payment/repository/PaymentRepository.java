@@ -12,5 +12,5 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID> {
     List<Payment> findByOrder(OrderRecord orderRecord);
 
 
-    List<Payment> findByOrder_Id(OrderRecord order);
+//    List<Payment> findByOrder_Id(OrderRecord order);
 }
