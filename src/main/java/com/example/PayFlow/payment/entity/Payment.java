@@ -18,7 +18,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "payment")
+@Table(name = "payment",indexes = {
+        @Index(name = "idx_order_id_merchant_id", columnList = "order_id,merchant_id"),
+        @Index(name = "idx_order_merchant_id", columnList = "merchant_id"),
+
+})
 public class Payment {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.UUID)

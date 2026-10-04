@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Entity
-@Table(name = "app_user")
+@Table(name = "app_user",indexes = {
+        @Index(name = "idx_app_user_merchant_id", columnList = "marchant_id")
+})
 @Getter
 @Setter
 @NoArgsConstructor

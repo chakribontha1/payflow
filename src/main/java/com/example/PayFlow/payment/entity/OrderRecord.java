@@ -19,7 +19,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "order_record")
+@Table(name = "order_record",indexes = {
+        @Index(name = "idx_order_record_merchant_id", columnList = "id,merchant_id")
+})
+
 public class OrderRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
