@@ -7,6 +7,7 @@ import com.example.PayFlow.merchant.dto.request.MerchantSignupRequest;
 import com.example.PayFlow.merchant.dto.response.MerchantResponse;
 import com.example.PayFlow.merchant.entity.AppUser;
 import com.example.PayFlow.merchant.entity.Merchant;
+import com.example.PayFlow.merchant.mapper.MerchantMapper;
 import com.example.PayFlow.merchant.repository.AppUserRepository;
 import com.example.PayFlow.merchant.repository.MerchantRepository;
 import com.example.PayFlow.merchant.service.AuthService;
@@ -22,20 +23,15 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
     private final AppUserRepository appUserRepository;
     private final MerchantRepository merchantRepository;
+    private final MerchantMapper merchantMapper;
     @Override
     @Transactional
     public MerchantResponse signup(MerchantSignupRequest request) {
         if(merchantRepository.existsByEmail(request.email())){
             throw new DuplicateResourceException("DUPLICATE_MERCHANT_EMAIL","Merchant email already exits: "+ request.email());
         }
-        Merchant merchant = Merchant.builder()
-                .businessName(request.businessName())
-                .businessType(request.businessType())
-                .name(request.name())
-                .email(request.email())
-                .status(MerchantStatus.PENDING_KYC)
-                .build();
-
+        Merchant merchant = merchantMapper.toEntityFromSignupRequest(request);
+        merchant.setStatus(MerchantStatus.PENDING_KYC);
         merchant = merchantRepository.save(merchant);
 
 
@@ -47,13 +43,6 @@ public class AuthServiceImpl implements AuthService {
                         .build();
           appUserRepository.save(appUser);
 
-          return new MerchantResponse(
-            merchant.getId(),
-            merchant.getName(),
-            merchant.getEmail(),
-            merchant.getBusinessName(),
-            merchant.getBusinessType(),
-            merchant.getStatus()
-          );
+        return merchantMapper.toResponse(merchant);
     }
 }

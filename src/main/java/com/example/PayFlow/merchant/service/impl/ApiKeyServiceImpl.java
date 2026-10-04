@@ -7,6 +7,7 @@ import com.example.PayFlow.merchant.dto.response.ApiKeyCreateResponse;
 import com.example.PayFlow.merchant.dto.response.ApiKeyResponse;
 import com.example.PayFlow.merchant.entity.ApiKey;
 import com.example.PayFlow.merchant.entity.Merchant;
+import com.example.PayFlow.merchant.mapper.ApiKeyMapper;
 import com.example.PayFlow.merchant.repository.ApiKeyRepository;
 import com.example.PayFlow.merchant.repository.MerchantRepository;
 import com.example.PayFlow.merchant.service.ApiKeyService;
@@ -25,6 +26,7 @@ import java.util.UUID;
 public class ApiKeyServiceImpl implements ApiKeyService {
     private final MerchantRepository merchantRepository;
     private final ApiKeyRepository apiKeyRepository;
+    private final ApiKeyMapper apiKeyMapper;
     @Transactional
     @Override
     public ApiKeyCreateResponse create(UUID merchantId, CreateApiKeyRequest request) {
@@ -49,15 +51,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     @Override
     public List<ApiKeyResponse> listByMerchant(UUID merchantId) {
-        return apiKeyRepository.findByMerchant_id(merchantId).stream()
-                .map(apiKey -> new ApiKeyResponse(
-                        apiKey.getId(),
-                        apiKey.getKeyid(),
-                        apiKey.getEnironment(),
-                        apiKey.isEnabled(),
-                        apiKey.getLastUsedAt(),
-                        null))
-                .toList();
+        return apiKeyMapper.toResponseList(apiKeyRepository.findByMerchant_id(merchantId));
     }
     @Transactional
     @Override
@@ -75,6 +69,10 @@ public class ApiKeyServiceImpl implements ApiKeyService {
         ApiKey apiKey = apiKeyRepository.findById(apiKeyId)
                 .filter(k -> k.getMerchant().getId().equals(merchantId))
                 .orElseThrow(() -> new ResourceNotFoundException("ApiKey not found",apiKeyId));
+
+
+
+
         String newRawSecret = RandomUtil.randomBase64(40);
         apiKey.setPrevioskeySecretHash(apiKey.getKeySecretHash());
         apiKey.setKeySecretHash(newRawSecret); //TODO
