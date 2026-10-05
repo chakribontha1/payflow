@@ -1,5 +1,6 @@
 package com.example.PayFlow.merchant.entity;
 
+import com.example.PayFlow.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Customer {
+public class Customer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.UUID)

@@ -1,5 +1,6 @@
 package com.example.PayFlow.merchant.entity;
 
+import com.example.PayFlow.common.entity.BaseEntity;
 import com.example.PayFlow.common.enums.BusinessType;
 import com.example.PayFlow.common.enums.MerchantStatus;
 import jakarta.persistence.*;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Merchant {
+public class Merchant extends BaseEntity {
  @Id
  @GeneratedValue(strategy = GenerationType.AUTO)
  private UUID id;

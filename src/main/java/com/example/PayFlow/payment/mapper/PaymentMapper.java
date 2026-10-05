@@ -11,7 +11,7 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface PaymentMapper {
-    @Mapping(target = "orderId", source = "order.Id")
+    @Mapping(target = "orderId", source = "order.id")
 //    @Mapping(target = "merchantId", source = "merchantId")
     PaymentResponse toResponse(Payment payment);
 

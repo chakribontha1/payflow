@@ -1,12 +1,13 @@
 package com.example.PayFlow.operations.entity;
 
+import com.example.PayFlow.common.entity.BaseEntity;
 import jakarta.persistence.*;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "settlement_payment")
-public class SettlementPayment {
+public class SettlementPayment  {
 
     @EmbeddedId
     private SettlementPaymentId id;

@@ -1,5 +1,6 @@
 package com.example.PayFlow.payment.entity;
 
+import com.example.PayFlow.common.entity.BaseEntity;
 import com.example.PayFlow.common.entity.Money;
 import com.example.PayFlow.common.enums.RefundStatus;
 import com.example.PayFlow.merchant.entity.Merchant;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Table(name = "refund")
-public class Refund {
+public class Refund extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

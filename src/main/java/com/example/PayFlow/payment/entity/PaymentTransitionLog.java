@@ -1,5 +1,6 @@
 package com.example.PayFlow.payment.entity;
 
+import com.example.PayFlow.common.entity.BaseEntity;
 import com.example.PayFlow.common.enums.PaymentActor;
 import com.example.PayFlow.common.enums.PaymentEvent;
 import com.example.PayFlow.common.enums.PaymentStatus;
@@ -19,7 +20,7 @@ import java.util.UUID;
         @Index(name = "idx_payment_transition_log_payment_id", columnList = "payment_id"),
 
 })
-public class PaymentTransitionLog {
+public class PaymentTransitionLog extends BaseEntity {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.UUID)
     private UUID id;

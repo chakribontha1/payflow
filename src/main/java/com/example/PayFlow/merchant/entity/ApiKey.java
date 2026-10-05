@@ -1,5 +1,6 @@
 package com.example.PayFlow.merchant.entity;
 
+import com.example.PayFlow.common.entity.BaseEntity;
 import com.example.PayFlow.common.enums.Enviroment;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ApiKey {
+public class ApiKey extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

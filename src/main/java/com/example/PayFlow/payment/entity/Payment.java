@@ -1,5 +1,6 @@
 package com.example.PayFlow.payment.entity;
 
+import com.example.PayFlow.common.entity.BaseEntity;
 import com.example.PayFlow.common.entity.Money;
 import com.example.PayFlow.common.enums.PaymentMethod;
 import com.example.PayFlow.common.enums.PaymentStatus;
@@ -23,7 +24,7 @@ import java.util.UUID;
         @Index(name = "idx_order_merchant_id", columnList = "merchant_id"),
 
 })
-public class Payment {
+public class Payment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.UUID)
     private UUID id;

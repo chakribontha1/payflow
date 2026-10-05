@@ -1,5 +1,6 @@
 package com.example.PayFlow.merchant.entity;
 
+import com.example.PayFlow.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MerchantWebhhokConfig {
+public class MerchantWebhhokConfig extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
