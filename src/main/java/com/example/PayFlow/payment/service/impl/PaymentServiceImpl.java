@@ -10,9 +10,12 @@ import com.example.PayFlow.payment.entity.OrderRecord;
 import com.example.PayFlow.payment.entity.Payment;
 import com.example.PayFlow.payment.gateway.PaymentGatewayRouter;
 import com.example.PayFlow.payment.gateway.dto.PaymentRequest;
+import com.example.PayFlow.payment.gateway.dto.PaymentResult;
+import com.example.PayFlow.payment.mapper.PaymentMapper;
 import com.example.PayFlow.payment.repository.OrderRepository;
 import com.example.PayFlow.payment.repository.PaymentRepository;
 import com.example.PayFlow.payment.service.PaymentService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,8 @@ public class PaymentServiceImpl implements PaymentService {
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
     private final PaymentGatewayRouter paymentGatewayRouter;
+    private final PaymentMapper paymentMapper;
+    @Transactional
     @Override
     public PaymentResponse initiate(UUID merchantId, PaymentInitRequest request) {
         OrderRecord order = orderRepository.findByIdAndMerchantId(request.orderId(),merchantId)
@@ -57,8 +62,19 @@ public class PaymentServiceImpl implements PaymentService {
                 request.methodDetails()
         );
 
-        paymentGatewayRouter.initiate(paymentRequest);
+        PaymentResult result = paymentGatewayRouter.initiate(paymentRequest);
         // Implement payment initiation logic here
-        return null;
+        // below if case you can swutch with swatch case with time 1:51 class 10
+        if(result instanceof PaymentResult.Pending pending){
+          payment.setProcessorReference(pending.registrationRef());
+        }else if(result instanceof PaymentResult.Failure failure){
+             payment.setStatus(PaymentStatus.FAILED);
+             payment.setErrorCode(failure.errorCode());
+             payment.setErrorDescription(failure.errorDescription());
+        }
+        payment = paymentRepository.save(payment);
+        orderRepository.save(order);
+
+        return paymentMapper.toResponse(payment);
     }
 }
